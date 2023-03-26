@@ -1,72 +1,78 @@
-#1
-def name_age():
-    name = input("Enter your name: ")
-    age = input("Enter your age: ")
-    print("Hello " + name + ". Your age is: " + age)
-    return name + age
+#exercise 02
 
-result = name_age()
-print(result)
+#1
+numbers = [1, 2, 3, 4, 5, 7, 7]
+integer = 8
+
+def count_integer (numbers, integer):
+    count = 0
+    for i, num in enumerate(numbers):
+        if num == integer:
+            count += 1
+    if count == 0:
+        return 42
+    else:
+        return count
+
+print(count_integer(numbers, integer))
+
 
 #2
-def swap_integers(num1, num2):
-    temp = num1
-    num1 = num2
-    num2 = temp
-    return str(num1) + str(num2)
+def list_func(numbers, integer):
+    if integer not in numbers:
+        return []
 
-result = swap_integers(10, 20)
+    numbers_copy = numbers.copy()
+
+    index = numbers_copy.index(integer)
+    numbers_copy[index] = 6
+
+    reversed_list = list(reversed(numbers_copy))
+
+    print(reversed_list)
+    return numbers_copy
+
+numbers = [1, 2, 3, 4, 5]
+integer = 3
+result = list_func(numbers, integer)
 print(result)
 
 #3
-def check_numbers(num1, num2):
-    if (num1 % 6 == 0 or num2 % 6 == 0) and num1 % 10 == 0 and num2 % 10 == 0:
-        return True
-    else:
-        return False
+list1 = [1, 2, 3, 50, 11, 6, 10, 23]
+list2 = [11, 5, 8, 3, 4, 1, 50, 7, 2]
 
-result = check_numbers(13, 22)
-print(result)
-result = check_numbers(30, 60)
-print(result)
+def compare_lists (list1, list2):
+    new_list = []
+    for element in list1:
+        if element in list2:
+            new_list.append(element)
+    return new_list
+
+new_list = compare_lists(list1, list2)
+print(new_list)
 
 #4
-def sum_up(num1, num2):
-    if num2 <= num1 or num1 <= 0 and num2 <= 0:
-        return 0
-    else: result = 0
-    for i in range(num1, num2 + 1):
-        result += i
-    return result
+def remove_duplicates(lst):
+    unique_list = []
+    for element in lst:
+        if element not in unique_list:
+            unique_list.append(element)
+    return unique_list
 
-result = sum_up(3, 9)
-print (result)
+my_list = [2, 3, 8, 5, 3, 2, 8, 3,]
 
+unique_list = remove_duplicates(my_list)
+print(unique_list)
 
 #5
-def circle_area(r1, r2, r3):
-    pi = 3.142
-    area1 = pi * r1 ** 2
-    area2 = pi * r2 ** 2
-    area3 = pi * r3 ** 2
-    return area1 + area2 + area3
+def dict_func (dictionary):
+    type = dictionary.get("Type", "unknown type")
+    brand = dictionary.get("Brand", "unknown brand")
+    price = dictionary.get("Price", "unknown price")
+    print(f"You have a {type} from {brand} that costs {price}.")
+    dictionary["OS"] = "Linux"
+    print(dictionary)
+    return(dictionary)
 
-result = circle_area(2, 4, 6)
-print(result)
-
-#6
-def check_string(text):
-    if text.lower().startswith('a') or text.lower().endswith('a'):
-        return 'True'
-    else:
-        return 'False'
-
-print(check_string('ANNA'))
-print(check_string('anna'))
-print(check_string('Hello'))
-
-def triangle(rows):
-    for i in range(1, rows + 1):
-        print('*' * i)
-
-print(triangle(20))
+dict1 = {"Type": "Smartphone", "Brand": "Samsung", "Price": "1000"}
+my_dict = dict_func(dict1)
