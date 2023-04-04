@@ -1,78 +1,114 @@
-#exercise 02
+# Exercise03
 
-#1
-numbers = [1, 2, 3, 4, 5, 7, 7]
-integer = 8
-
-def count_integer (numbers, integer):
-    count = 0
-    for i, num in enumerate(numbers):
-        if num == integer:
-            count += 1
-    if count == 0:
+# 1
+def count_vowels(text):
+    if not isinstance(text, str):
         return 42
-    else:
-        return count
+    vowels = "aAeEiIoOuU"
+    count = 0
+    for character in text:
+        if character in vowels:
+            count += 1
+    return count
 
-print(count_integer(numbers, integer))
 
-
-#2
-def list_func(numbers, integer):
-    if integer not in numbers:
-        return []
-
-    numbers_copy = numbers.copy()
-
-    index = numbers_copy.index(integer)
-    numbers_copy[index] = 6
-
-    reversed_list = list(reversed(numbers_copy))
-
-    print(reversed_list)
-    return numbers_copy
-
-numbers = [1, 2, 3, 4, 5]
-integer = 3
-result = list_func(numbers, integer)
+result = count_vowels(23)
 print(result)
 
-#3
-list1 = [1, 2, 3, 50, 11, 6, 10, 23]
-list2 = [11, 5, 8, 3, 4, 1, 50, 7, 2]
+# 2
+def hamming(text1, text2):
+    if len(text1) != len(text2):
+        return 0
+    else:
+        count = 0
+        for i in range(len(text1)):
+            if text1[i] != text2[i]:
+                count += 1
+        return count
 
-def compare_lists (list1, list2):
-    new_list = []
-    for element in list1:
-        if element in list2:
-            new_list.append(element)
-    return new_list
 
-new_list = compare_lists(list1, list2)
-print(new_list)
+result = hamming('cat', 'kat')
+print(result)
 
-#4
-def remove_duplicates(lst):
-    unique_list = []
-    for element in lst:
-        if element not in unique_list:
-            unique_list.append(element)
-    return unique_list
+# 3
+class Vehicle:
 
-my_list = [2, 3, 8, 5, 3, 2, 8, 3,]
+    def __init__(self, color, fuel_type):
+        self.color = color
+        self.fuel_type = fuel_type
 
-unique_list = remove_duplicates(my_list)
-print(unique_list)
+    def __str__(self):
+        pass
 
-#5
-def dict_func (dictionary):
-    type = dictionary.get("Type", "unknown type")
-    brand = dictionary.get("Brand", "unknown brand")
-    price = dictionary.get("Price", "unknown price")
-    print(f"You have a {type} from {brand} that costs {price}.")
-    dictionary["OS"] = "Linux"
-    print(dictionary)
-    return(dictionary)
+class Car(Vehicle):
+    def __init__(self, color, fuel_type, doors):
+        super().__init__(color, fuel_type)
+        self.doors = doors
 
-dict1 = {"Type": "Smartphone", "Brand": "Samsung", "Price": "1000"}
-my_dict = dict_func(dict1)
+    def __str__(self):
+        return f"Color: {self.color}, Fuel Type: {self.fuel_type}, Doors: {self.doors}"
+
+
+class Bus(Vehicle):
+    def __init__(self, color, fuel_type, passengers):
+        super().__init__(color, fuel_type)
+        self.passengers = passengers
+
+    def __str__(self):
+        return f"Color: {self.color}, Fuel Type: {self.fuel_type}, Passengers: {self.passengers}"
+
+my_car = Car("blue", "gasoline", 4)
+print(my_car)
+my_bus = Bus("yellow", "diesel", 160)
+print(my_bus)
+
+# 4
+class Book:
+    def __init__(self, name, author):
+        self.name = name
+        self. author = author
+
+    def __str__(self):
+        return f"{self.name}, {self.author}"
+
+book1 = Book("Dave", "Raphaela Edelbauer")
+print(book1)
+
+# 5
+class BookShelf:
+    def __init__(self):
+        self.books = []
+
+    def add_book_list(self, books):
+        for book in books:
+            if isinstance(book, Book):
+                self.books.append(book)
+
+    def books_by_author(self, author):
+        author_books = []
+        for book in self.books:
+            if book.author == author:
+                author_books.append(book.name)
+        return author_books
+
+    def get_books(self):
+        all_books = []
+        for book in self.books:
+            all_books.append(book.name)
+        return all_books
+
+    def clear_shelf(self):
+        self.books = []
+
+book1 = Book("Pride and Prejudice", "Jane Austen")
+book2 = Book("It", "Stephen King")
+book3 = Book ("The Adventures of Huckleberry Finn", "Mark Twain")
+
+bookshelf = BookShelf()
+bookshelf.add_book_list([book1, book2, book3, 32, "Hello World"])
+all_books = bookshelf.get_books()
+print("All books:", all_books)
+
+author_books = bookshelf.books_by_author("Jane Austen")
+print("Books by Jane Austen:", author_books)
+
