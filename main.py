@@ -1,114 +1,234 @@
-# Exercise03
-
-# 1
-def count_vowels(text):
-    if not isinstance(text, str):
-        return 42
-    vowels = "aAeEiIoOuU"
-    count = 0
-    for character in text:
-        if character in vowels:
-            count += 1
-    return count
+# singly linked list
+# node class of the singly linked list
 
 
-result = count_vowels(23)
-print(result)
-
-# 2
-def hamming(text1, text2):
-    if len(text1) != len(text2):
-        return 0
-    else:
-        count = 0
-        for i in range(len(text1)):
-            if text1[i] != text2[i]:
-                count += 1
-        return count
-
-
-result = hamming('cat', 'kat')
-print(result)
-
-# 3
-class Vehicle:
-
-    def __init__(self, color, fuel_type):
-        self.color = color
-        self.fuel_type = fuel_type
+class SLLNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None  # pointer to the next node
 
     def __str__(self):
-        pass
-
-class Car(Vehicle):
-    def __init__(self, color, fuel_type, doors):
-        super().__init__(color, fuel_type)
-        self.doors = doors
-
-    def __str__(self):
-        return f"Color: {self.color}, Fuel Type: {self.fuel_type}, Doors: {self.doors}"
+        return str(self.data)
 
 
-class Bus(Vehicle):
-    def __init__(self, color, fuel_type, passengers):
-        super().__init__(color, fuel_type)
-        self.passengers = passengers
-
-    def __str__(self):
-        return f"Color: {self.color}, Fuel Type: {self.fuel_type}, Passengers: {self.passengers}"
-
-my_car = Car("blue", "gasoline", 4)
-print(my_car)
-my_bus = Bus("yellow", "diesel", 160)
-print(my_bus)
-
-# 4
-class Book:
-    def __init__(self, name, author):
-        self.name = name
-        self. author = author
-
-    def __str__(self):
-        return f"{self.name}, {self.author}"
-
-book1 = Book("Dave", "Raphaela Edelbauer")
-print(book1)
-
-# 5
-class BookShelf:
+# Singly linked list class
+class SinglyLinkedList:
     def __init__(self):
-        self.books = []
+        self.head = None
+        self.size = 0
 
-    def add_book_list(self, books):
-        for book in books:
-            if isinstance(book, Book):
-                self.books.append(book)
+    def append(self, data):
+        # Create the new node the pointer is set to None through the constructor of the SLLNode class
+        node = SLLNode(data)
+        if self.head is None:  # if the list is empty, the new node is the head
+            self.head = node
+        else:  # if it is not empty, we need to find the last node and append the new node
+            current = self.head
+            while current.next is not None:
+                current = current.next
+            # set the pointer of the last node to the new node
+            current.next = node
+        self.size += 1  # increase the size of the list
 
-    def books_by_author(self, author):
-        author_books = []
-        for book in self.books:
-            if book.author == author:
-                author_books.append(book.name)
-        return author_books
+    def get_size(self):
+        return self.size
 
-    def get_books(self):
-        all_books = []
-        for book in self.books:
-            all_books.append(book.name)
-        return all_books
+    # string representation of the linked list
+    def __str__(self):
+        return str([node for node in self])
 
-    def clear_shelf(self):
-        self.books = []
+    # iteration function without this function we can not iterate over the list
+    def __iter__(self):
+        current = self.head
+        while current:
+            value = current.data
+            current = current.next
+            yield value
 
-book1 = Book("Pride and Prejudice", "Jane Austen")
-book2 = Book("It", "Stephen King")
-book3 = Book ("The Adventures of Huckleberry Finn", "Mark Twain")
+    """
+    Exercise part 1,2,3,4
 
-bookshelf = BookShelf()
-bookshelf.add_book_list([book1, book2, book3, 32, "Hello World"])
-all_books = bookshelf.get_books()
-print("All books:", all_books)
+    Implement the given methods below according to the requirements in the exercise sheet.
+    Make sure to return the correct values.
+    """
 
-author_books = bookshelf.books_by_author("Jane Austen")
-print("Books by Jane Austen:", author_books)
+    def insert_node(self, prev_data, data):
+        node = SLLNode(data)
+        current = self.head
+        while current is not None:
+            if current.data == prev_data:
+                node.next = current.next
+                current.next = node
+                self.size += 1
+                return
+            current = current.next
+        return False
 
+    def clear(self):
+        self.head = None
+        self.size = 0
+
+    def get_data(self, data):
+        current = self.head
+        while current:
+            if current.data == data:
+                return current.data
+            current = current.next
+        return False
+
+    def delete_node(self, data):
+        if self.head is None:
+            return
+
+        if self.head.data == data:
+            self.head = self.head.next
+            self.size -= 1
+            return
+
+        current = self.head
+        while current.next is not None:
+            if current.next.data == data:
+                current.next = current.next.next
+                self.size -= 1
+                return
+            current = current.next
+
+
+"""
+Exercise part 5
+Implement a doubly linked list according to the exercise sheet.
+You can copy the code from the singly linked list and modify it.
+"""
+
+
+class DLLNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+
+    def __str__(self):
+        return str(self.data)
+
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+
+    def append(self, data):
+        # Create the new node the pointer is set to None through the constructor of the DLLNode class
+        node = DLLNode(data)
+        if self.head is None:  # if the list is empty, the new node is the head and tail
+            self.head = node
+            self.tail = node
+        else:  # if it is not empty, we add the new node to the tail of the list
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = node
+        # Increase the size of the list
+        self.size += 1
+
+    def get_size(self):
+        return self.size
+
+    # string representation of the linked list
+    def __str__(self):
+        return str([node for node in self])
+
+    # iteration function without this function we can not iterate over the list
+    def __iter__(self):
+        current = self.head
+        while current:
+            value = current.data
+            current = current.next
+            yield value
+
+    def insert_node(self, prev_data, data):
+        node = DLLNode(data)
+        current = self.head
+        while current is not None:
+            if current.data == prev_data:
+                node.next = current.next
+                node.prev = current
+                current.next = node
+                if node.next is not None:
+                    node.next.prev = node
+                else:
+                    self.tail = node
+                self.size += 1
+                return
+            current = current.next
+        return False
+
+    def delete_node(self, data):
+        if self.head is None:
+            return
+
+        if self.head.data == data:
+            self.head = self.head.next
+            if self.head:
+                self.head.prev = None
+            else:
+                self.tail = None
+            self.size -= 1
+            return
+
+        if self.tail.data == data:
+            self.tail = self.tail.prev
+            self.tail.next = None
+            self.size -= 1
+            return
+
+
+"""
+Exercise Part 5 and 7:
+Complete the classes below to implement a stack and queue data structure. You are free to use built-in
+methods but you have to complete all methods below. Always return the correct data type according
+to the exercise sheet
+"""
+
+
+class MyStack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, element):
+        self.stack.append(element)
+        return
+
+    def pop(self):
+        if len(self.stack) > 0:
+            return self.stack.pop()
+
+    def top(self):
+        if len(self.stack) > 0:
+            return self.stack[-1]
+
+    def size(self):
+        return len(self.stack)
+
+
+class MyQueue:
+    def __init__(self):
+        self.queue = []
+
+    def push(self, element):
+        self.queue.append(element)
+        return
+
+    def pop(self):
+        if len(self.queue) > 0:
+            return self.queue.pop(0)
+
+    def show_left(self):
+        if len(self.queue) > 0:
+            return self.queue[-1]
+
+    def show_right(self):
+        if len(self.queue) > 0:
+            return self.queue[0]
+
+    def size(self):
+        return len(self.queue)
